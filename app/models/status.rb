@@ -151,6 +151,13 @@ class Status < ApplicationRecord
 
   around_create Mastodon::Snowflake::Callbacks
 
+  before_create :set_timestamps
+
+  def set_timestamps
+    self.created_at ||= Time.zone.now
+    self.edited_at = Time.zone.now
+  end
+  
   after_create :set_poll_id
 
   # The `prepend: true` option below ensures this runs before
